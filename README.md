@@ -5,18 +5,18 @@
 *Tech Stack*
 - Frontend framework and language
   - React & Node JS
-- Component library **(TBA)**
-  - Material UI or Ant Design
+- Component library
+  - Material UI
 - API
   - REST API
-- Backend language **(TBA)**
-  - Python or Node JS
+- Backend language
+  - Node JS
 - Database
   - MongoDB
-- Authentication model **(TBA)**
+- Authentication model
   - JWT (JSON Web Token)
-  - Passport.js
-- Unit test frameworks **(TBA)**
+  - Firebase
+- Unit test frameworks
   - Jest
 
 *Requirements*
