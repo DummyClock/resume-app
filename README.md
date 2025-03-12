@@ -25,9 +25,3 @@
 - Users can upload current resumes, skills, work history, and education,
 - Users can copy job listings to the service,
 - The service writes resumes using a format chosen by the user
-
-*Setting Up Local Repo*
-- When forking be sure to run the commands
-  - npm install
-  - npm install react-scripts —save
-  - npm install web-vitals
