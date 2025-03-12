@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const admin = require('firebase-admin');
-const pathToServiceAccount = './resume-app-abd66-firebase-adminsdk-fbsvc-1c7e8d1b33.json';
+const pathToServiceAccount = './----------------------------------------------REPLACE WITH FIREBASE SDK FILE PATH---------------------';
 
 // Initialize Express
 const app = express();
