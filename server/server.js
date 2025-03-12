@@ -3,15 +3,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const admin = require('firebase-admin');
-const pathToServiceAccount = './resume-app-abd66-firebase-adminsdk-fbsvc-1c7e8d1b33.json';
+const path = require('path'); 
 
 // Initialize Express
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+const dbPassword = process.env.DATABASE_URL;
+console.log('Database Password:', dbPassword);
+
 // Initialize Firebase Admin
-const serviceAccount = require(pathToServiceAccount);
+const serviceAccountPath = path.resolve(__dirname, process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+const serviceAccount = require(serviceAccountPath); // Ensure this is a correct file path
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -42,14 +47,12 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-// Routes
-
-// Public route (no auth required)
+// Public Routes (no auth required)
 app.get('/', (req, res) => {
   res.send('Welcome to the backend!');
 });
 
-// Protected route (requires authentication)
+// Protected Routes (requires authentication)
 app.get('/dashboard', verifyToken, (req, res) => {
   res.json({ message: `Welcome, ${req.user.email}` });
 });
