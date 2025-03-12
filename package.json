@@ -1,0 +1,26 @@
+{
+  "name": "resume-app",
+  "version": "1.0.0",
+  "description": "*Overview*: Job hunting is hard work and customizing a resume can be tedious. Our project builds a web app to taylor resumes for specific job listings.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm start --prefix client\" \"npm start --prefix server\"",
+    "client": "npm start --prefix client",
+    "server": "npm run dev --prefix server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DummyClock/resume-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DummyClock/resume-app/issues"
+  },
+  "homepage": "https://github.com/DummyClock/resume-app#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

@@ -1,0 +1,14 @@
+# Environment variables
+.env
+
+# Firebase service account key
+resume-app-abd66-firebase-adminsdk-fbsvc-1c7e8d1b33.json
+
+# Node modules
+node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
