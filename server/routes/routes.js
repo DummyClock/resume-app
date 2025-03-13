@@ -5,6 +5,9 @@
 */
 const { verifyToken } = require('../config/middleware.js');
 const User = require('../schemas/user.js');
+const { signInWithEmailAndPassword } = require('firebase/auth');
+const { auth } = require('../config/firebaseClient.js');
+const { createUser, createFirebaseUser } = require('../services/createUser.js');
 
 module.exports = (app) => {
 /* Public Routes (no auth required)-----*/
@@ -18,13 +21,16 @@ module.exports = (app) => {
         res.json({ message: `Welcome, ${req.user.email}` });
     });
 
-    // POST a new user in MongoDB
+    // Create a new user in Firebase Auth, then add into MongoDB
     app.post('/users', verifyToken, async (req, res) => {
         const { email, password } = req.body;
         try {
+            // Create user in Firebase Auth
+            createFirebaseUser(email, password);
+            // Create user in MongoDB
             const user = new User({ email, password });
             await user.save();
-            res.json(user);
+            res.json({ email: user.email, id: user._id });
         } 
         catch (err) {
             res.status(500).json({ message: err.message });
@@ -32,12 +38,24 @@ module.exports = (app) => {
         }
     });
 
-    // Create a new user in Firebase
-
     // Login Route
+    app.get("/login", async (req, res) => {
+        const { email, password } = req.body;
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            const token = await user.getIdToken();
+            console.log('---| User successfully signed in:', user.email);
+            res.json({ email: user.email, token: token });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+            console.log("Failed to sign in user: ", err.message);
+        }
+    })
 
     // Logout Route
 
+    // Delete User Route
 
     
 /* Admin Routes (requires admin rights)-----*/
