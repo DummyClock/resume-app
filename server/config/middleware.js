@@ -1,24 +1,10 @@
 /*
-    File initializes the server by connecting to MongoDB and Firebase Admin.
     Middleware is also defined to verify Firebase tokens.
     This file should be imported in server.js to use the verifyToken middleware.
 */
 require('dotenv').config();
-const mongoose = require('mongoose');
 const admin = require('firebase-admin');
 const path = require('path'); 
-
-// Initialize Firebase Admin
-const serviceAccountPath = path.resolve(__dirname, process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-const serviceAccount = require(serviceAccountPath); // Ensure this is a correct file path
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
-// Connect to MongoDB
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('--> Connected to MongoDB'))
-  .catch(err => console.error('--> Could not connect to MongoDB', err));
 
 // Middleware to Verify Firebase Token
 const verifyToken = async (req, res, next) => {

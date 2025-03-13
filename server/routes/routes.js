@@ -3,7 +3,7 @@
     Remember to user the verifyToken middleware to protect routes
     For Admin routes, check if req.user.admin is true
 */
-const { verifyToken } = require('../config/server_init.js');
+const { verifyToken } = require('../config/middleware.js');
 const User = require('../schemas/user.js');
 
 module.exports = (app) => {
@@ -31,6 +31,14 @@ module.exports = (app) => {
             console.log("Failed to create new user: ", err.message)
         }
     });
+
+    // Create a new user in Firebase
+
+    // Login Route
+
+    // Logout Route
+
+
     
 /* Admin Routes (requires admin rights)-----*/
     // GET all users (admin only)
