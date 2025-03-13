@@ -15,7 +15,7 @@ console.log('Database Password:', dbPassword);
 
 // Initialize Firebase Admin
 const serviceAccountPath = path.resolve(__dirname, process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-const serviceAccount = require(serviceAccountPath); // Ensure this is a correct file path
+const serviceAccount = require("./resume-app-e6a79-firebase-adminsdk-fbsvc-384e427d01.json"); // Ensure this is a correct file path
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
