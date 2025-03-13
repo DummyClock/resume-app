@@ -21,7 +21,7 @@ routes(app);
 
 // Testing Firebase authentication & MongoDB Route Usage (Can be Safetly Omitted)
 const testFirebaseAuth = require('./test_route_calls');
-//testFirebaseAuth();
+testFirebaseAuth();
 
 // Start the server
 const PORT = process.env.PORT || 5000;

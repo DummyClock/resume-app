@@ -14,7 +14,7 @@ const createFirebaseUser = async (email, password) => {
       password: password,
     });
 
-    console.log('Successfully created new user:', userRecord.uid);
+    console.log('Successfully created new user. uid:', userRecord.uid);
     return userRecord;
   } catch (error) {
     console.error('Error creating new user:', error);

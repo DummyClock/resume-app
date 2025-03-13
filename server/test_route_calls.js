@@ -12,7 +12,7 @@ const testFirebaseAuth = async () => {
     const email = 'reigen@one.net';
     const password = 'password-lol';
 
-    // Add a new user to Firebase (should have error handling). MUST RUN if the user is not already registered in Firebase!
+    // Add a new user to Firebase (should have error handling). MUScleaT RUN if the user is not already registered in Firebase!
     //createFirebaseUser(email, password)
 
     try {
@@ -31,8 +31,17 @@ const testFirebaseAuth = async () => {
             }
         });
 
+        const response2 = await fetch(`${apiUrl}/users`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Content-Type': 'application/json' // Indicate that the request body is in JSON format
+            },
+            body: JSON.stringify({ email: email, password: password}) // Request body with email and password
+        });
+
         // Verify a Query sent to MongoDB (swap our 'response' with 'response2' to test the other route)
-        if (!response.ok) {
+        if (!response2.ok) {
             console.error('Failed to access dashboard:', response.statusText);
         } else {
             const data = await response.json();

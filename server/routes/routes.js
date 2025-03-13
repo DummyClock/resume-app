@@ -6,7 +6,7 @@
 const { verifyToken } = require('../config/middleware.js');
 const User = require('../schemas/user.js');
 const { signInWithEmailAndPassword } = require('firebase/auth');
-const { auth } = require('../config/firebaseClient.js');
+const { auth } = require('../services/my-firebase-auth.js');
 const { createUser, createFirebaseUser } = require('../services/createUser.js');
 
 module.exports = (app) => {
@@ -48,7 +48,11 @@ module.exports = (app) => {
             console.log('---| User successfully signed in:', user.email);
             res.json({ email: user.email, token: token });
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            if (err.code === 'auth/email-already-exists') {
+                res.status(400).json({ message: 'The email address is already in use by another account.' });
+            } else {
+                res.status(500).json({ message: err.message });
+            }
             console.log("Failed to sign in user: ", err.message);
         }
     })
