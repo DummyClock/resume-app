@@ -1,6 +1,6 @@
 /*
     This file contains the schema for the User model.
-    Import these schemas in routes.js to use MongoDB.
+    Import the schemas in routes.js to use MongoDB.
 */
 const mongoose = require('mongoose');
 

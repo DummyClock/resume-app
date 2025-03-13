@@ -3,8 +3,8 @@
     Remember to user the verifyToken middleware to protect routes
     For Admin routes, check if req.user.admin is true
 */
-const { verifyToken } = require('./server_init');
-const User = require('./schemas.js');
+const { verifyToken } = require('../config/server_init.js');
+const User = require('../schemas/user.js');
 
 module.exports = (app) => {
 /* Public Routes (no auth required)-----*/
