@@ -1,82 +1,85 @@
+/*
+    This file is the entry point for the server. It initializes the server, sets up the routes, and starts the server.
+    Think of it as the main program for the backend.
+*/
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const admin = require('firebase-admin');
-const path = require('path'); 
+const routes = require('./routes');
 
 // Initialize Express
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const dbPassword = process.env.DATABASE_URL;
-console.log('Database Password:', dbPassword);
+// Gain Access to Routes; Remeber to define the apiURL
+// Also initializes connection to MongoDB + Firebase Admin
+routes(app);
+const apiUrl = process.env.API_BASE_URL; 
 
-// Initialize Firebase Admin
-const serviceAccountPath = path.resolve(__dirname, process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-const serviceAccount = require(serviceAccountPath); // Ensure this is a correct file path
+/* Testing Firebase authentication & MongoDB Route Usage (Can be Safetly Omitted) */
+const test = async () => {
+    // Variables + Imports for test
+    const { signInWithEmailAndPassword } = require('firebase/auth');
+    const { auth } = require('./my-firebase-auth');
+    const { createFirebaseUser } = require("./createUser")
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+    // Main Test Function
+    const testFirebaseAuth = async () => {
+        // Sample Data
+        const email = 'reigen@one.net';
+        const password = 'password-lol';
 
-// Connect to MongoDB
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Could not connect to MongoDB', err));
+        // Add a new user to Firebase (should have error handling). MUST RUN if the user is not already registered in Firebase!
+        //createFirebaseUser(email, password)
 
-// Create a simple User schema
-const UserSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-});
-const User = mongoose.model('User', UserSchema);
+        try {
+        // Testing Firebase Auth; Makes sure email & password are already registered in Firebase! You'll get back a token if so!
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const token = await user.getIdToken();
+        console.log('---| User successfully signed in:', user.email);
 
-// Middleware to Verify Firebase Token
-const verifyToken = async (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ message: 'Unauthorized' });
+        // Testing Queries using routes stored in 'routes.js' : Acessing Mongo Database
+        // Welcome Message
+        const response = await fetch(`${apiUrl}/dashboard`, {
+            method: 'GET',
+            headers: {
+            'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+            }
+        });
+        /*
+        // Add a new user to MongoDB (should have error handling)
+        const response = await fetch(`${apiUrl}/users`, {
+            method: 'POST',
+            headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email, password: password })
+        })
+            */
 
-  try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    req.user = decodedToken;
-    next();
-  } catch (error) {
-    res.status(400).json({ message: 'Invalid Token' });
-  }
-};
+        // Verify a Query sent to MongoDB (swap our 'response' with 'response2' to test the other route)
+        if (!response.ok) {
+            console.error('Failed to access dashboard:', response.statusText);
+        } else {
+            const data = await response.json();
+            console.log('\nPayload:', data);
+        }
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log('---| Error during signInWithEmailAndPassword:', errorCode, errorMessage);
+        }
+    };
+        // Call the async function to test Firebase Auth
+        testFirebaseAuth();
+}
+test(); // Run Test Function
+/* End of Test ----------------------------------------- */
 
-// Public Routes (no auth required)
-app.get('/', (req, res) => {
-  res.send('Welcome to the backend!');
-});
-
-// Protected Routes (requires authentication)
-app.get('/dashboard', verifyToken, (req, res) => {
-  res.json({ message: `Welcome, ${req.user.email}` });
-});
-
-// Create a new user in MongoDB
-app.post('/users', verifyToken, async (req, res) => {
-  const { email, name } = req.body;
-  try {
-    const user = new User({ email, name });
-    await user.save();
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Get all users (admin only)
-app.get('/users', verifyToken, async (req, res) => {
-  if (!req.user.admin) return res.status(403).json({ message: 'Forbidden' });
-  const users = await User.find();
-  res.json(users);
-});
-
+  
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
