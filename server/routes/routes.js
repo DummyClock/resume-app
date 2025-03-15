@@ -39,14 +39,19 @@ module.exports = (app) => {
     });
 
     // Login Route
-    app.get("/login", async (req, res) => {
+    app.post("/login", async (req, res) => {
         const { email, password } = req.body;
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             const token = await user.getIdToken();
-            console.log('---| User successfully signed in:', user.email);
-            res.json({ email: user.email, token: token });
+            console.log('---| User successfully signed in:');
+            res.cookie('token', token, {
+                httpOnly: true, // Can't be accessed via JavaScript
+                secure: true, 
+                maxAge: 5*60 * 60 * 1000, // 5 hour
+                sameSite: 'Strict' // Helps mitigate CSRF
+            }).json({ message: 'Login successful' });
         } catch (err) {
             if (err.code === 'auth/email-already-exists') {
                 res.status(400).json({ message: 'The email address is already in use by another account.' });
@@ -58,8 +63,35 @@ module.exports = (app) => {
     })
 
     // Logout Route
+    app.post("/logout", (req, res) => {
+        res.clearCookie('token').json({ message: 'Logout successful' });
+        console.log('---| User successfully logged out');
+    });
 
     // Delete User Route
+
+    // Refresh Token Route
+    app.post("/refresh-token", async (req, res) => {
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) {
+            return res.status(401).json({ message: 'No refresh token provided' });
+        }
+
+        // Verify the refresh token
+        const decodedToken = await verifyRefreshToken(refreshToken);
+        if (!decodedToken) {
+            return res.status(401).json({ message: 'Invalid refresh token' });
+        }
+
+        try {
+            const auth = getAuth();
+            const user = await auth.verifyIdToken(refreshToken, true);
+            const newIdToken = await user.getIdToken();
+            res.cookie('token', newIdToken, cookieDefaultOptions).json({ token: newIdToken });
+        } catch (err) {
+            res.status(500).json({ message: 'Failed to refresh token', error: err.message });
+        }
+    });
 
     
 /* Admin Routes (requires admin rights)-----*/
