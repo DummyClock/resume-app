@@ -82,36 +82,37 @@ export default function SignIn(props) {
     event.preventDefault();
     if (emailError || passwordError)
       return;
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email    = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+  
     fetch('http://localhost:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json' // Indicate that the request body is in JSON format
       },
-      body: JSON.stringify(data)
+      credentials: 'include',
+      body: JSON.stringify({email, password})
     })
     .then(response => {
       if (!response.ok) {
         setAuthError(true);
         if (response.status === 400)
-          setAuthErrorMessage(response.message);
+          setAuthErrorMessage('The email address is already in use by another account.');
         else if (response.status === 500)
           setAuthErrorMessage("Email or password is incorrect.");
         else
           setAuthErrorMessage('Network failed to fetch server')
         throw new Error('Login fetch failed');
       }
+      setAuthError(false);
       return response.json();
     })
     .then(data => {
-      fetch('/dashboard', {
-        method: 'GET', 
-        headers: {'Authorization': `Bearer ${data.token}`}
-      })
+      console.log(data.message);
+      fetch('http://localhost:5000/dashboard', { 
+        method: 'GET',
+        credentials: 'include'
+      }) 
     })
     .catch(error => {
       console.error(error);
