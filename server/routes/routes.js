@@ -10,6 +10,7 @@ const { auth } = require('../services/my-firebase-auth.js');
 const { createUser, createFirebaseUser } = require('../services/createUser.js');
 
 module.exports = (app) => {
+
 /* Public Routes (no auth required)-----*/
     app.get('/', (req, res) => {
         res.send('Welcome to the Lighthouse! IDK, we\'re still working on a name.');

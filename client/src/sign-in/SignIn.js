@@ -17,6 +17,7 @@ import ForgotPassword from './components/ForgotPassword';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -60,11 +61,13 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props: { disableCustomTheme?: boolean }) {
+export default function SignIn(props) {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
+  const [authError, setAuthError] = React.useState(false);
+  const [authErrorMessage, setAuthErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -75,21 +78,47 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (emailError || passwordError)
       return;
-    }
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json' // Indicate that the request body is in JSON format
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (!response.ok) {
+        setAuthError(true);
+        if (response.status === 400 || response.status === 500)
+          setAuthErrorMessage(response.message);
+        else
+          setAuthErrorMessage('Network failed to fetch server')
+        throw new Error('Login fetch failed');
+      }
+      return response.json();
+    })
+    .then(data => {
+      fetch('/dashboard', {
+        method: 'GET', 
+        headers: {'Authorization': `Bearer ${data.token}`}
+      })
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
 
     let isValid = true;
 
@@ -117,6 +146,28 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
+      {authError && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            margin: "auto",
+            gap: 1,
+            backgroundColor: "#ffebe9",
+            color: "#d73a49",
+            border: "1px solid #d73a49",
+            borderRadius: "6px",
+            padding: "10px",
+            width: "50%",
+            mt: 2,
+          }}
+        >
+          <ErrorOutlineIcon sx={{ fontSize: 20 }} />
+          <Typography fontSize={14} fontWeight="bold">
+            {authErrorMessage}
+          </Typography>
+        </Box>
+      )}
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
