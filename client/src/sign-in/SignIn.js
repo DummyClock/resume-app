@@ -87,7 +87,7 @@ export default function SignIn(props) {
       email: data.get('email'),
       password: data.get('password'),
     });
-    fetch('/login', {
+    fetch('http://localhost:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json' // Indicate that the request body is in JSON format
@@ -97,8 +97,10 @@ export default function SignIn(props) {
     .then(response => {
       if (!response.ok) {
         setAuthError(true);
-        if (response.status === 400 || response.status === 500)
+        if (response.status === 400)
           setAuthErrorMessage(response.message);
+        else if (response.status === 500)
+          setAuthErrorMessage("Email or password is incorrect.");
         else
           setAuthErrorMessage('Network failed to fetch server')
         throw new Error('Login fetch failed');

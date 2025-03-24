@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 const corsOptions = {
-    origin: 'http://localhost:3000/', // Replace with your actual front-end URL (e.g., http://localhost:3000 for local dev)
+    origin: 'http://localhost:3000', // Replace with your actual front-end URL (e.g., http://localhost:3000 for local dev)
     credentials: true, // Allow cookies (such as the token cookie) to be sent with the request
   };
 app.use(cors(corsOptions));
