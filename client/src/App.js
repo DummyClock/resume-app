@@ -11,6 +11,7 @@ import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -18,26 +19,38 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-export default function MarketingPage(props) {
+
+export default function LandingPage(props) {
+  let navigate = useNavigate();
+  let online = navigator.onLine;
+  const checkAuth = async () => {
+    const res = await fetch(API_BASE_URL + '/', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const data = await response.json();
+
+    if (response.ok && data.message) {
+      navigate('/home'); 
+      }
+  }
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
+      {!online && (
+        <div style={{
+          backgroundColor: 'black', 
+          color: 'white', 
+        }}>
+          Error: Page failed to load due to network issue.
+        </div>
+      )}
       <AppAppBar />
       <Hero />
       <div>
-        <LogoCollection />
-        <Features />
         <Divider />
-        <Testimonials />
-        <Divider />
-        <Highlights />
-        <Divider />
-        <Pricing />
-        <Divider />
-        <FAQ />
-        <Divider />
-        <Footer />
       </div>
     </AppTheme>
   );
