@@ -31,3 +31,12 @@
   - npm install
   - npm install react-scripts —save 
   - npm install web-vitals
+  
+  -> move to client directory
+    npm install
+    npm install @mui/material @emotion/react @emotion/styled
+    npm install @mui/icons-material
+
+  --> move to server directory
+    edit .env sample file
+    npm install
