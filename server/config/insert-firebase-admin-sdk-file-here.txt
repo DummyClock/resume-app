@@ -1,0 +1,5 @@
+insert-firebase-admin-sdk-file-here
+
+you can delete this text file afterwards
+
+- love willem dafoe
