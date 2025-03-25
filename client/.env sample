@@ -1,0 +1,8 @@
+/*
+  If you dont have a .env file in the server directory, create one and copy the content below OR...
+    Rename this file to be '.env' instead of '.env sample'
+      But make sure to replace the values with your own,
+    Then Delete this comment.
+*/
+
+REACT_APP_API_URL=http://localhost:5000/api
