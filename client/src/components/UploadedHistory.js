@@ -176,7 +176,7 @@ const UploadedHistory = ({ triggerUploadRefresh }) => {
   const fetchResumes = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/resume", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/resume", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -237,7 +237,7 @@ const UploadedHistory = ({ triggerUploadRefresh }) => {
     //console.log(resume._id )
     const token = await getAccessTokenSilently();
     const response = await axios.delete(
-      `http://localhost:8000/api/resume/${resume_id}`,
+      `https://nikoapi.alexa.moe/api/resume/${resume_id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -48,7 +48,7 @@ const NavBar = () => {
         console.log("Fetching profile photo for user:", user?.sub);
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "http://localhost:8000/api/user-profile/photo",
+          "https://nikoapi.alexa.moe/api/user-profile/photo",
           {
             headers: {
               Authorization: `Bearer ${token}`,

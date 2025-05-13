@@ -169,7 +169,7 @@ const MyResumes = () => {
   const fetchResumes = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/resumes", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/resumes", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -200,7 +200,7 @@ const MyResumes = () => {
       const token = await getAccessTokenSilently();
       console.log("Token: ", token);
       const response = await axios.post(
-        "http://localhost:8000/api/jobs/advice",
+        "https://nikoapi.alexa.moe/api/jobs/advice",
         {
           resumeId: resumeId,
           //jobId:
@@ -258,7 +258,7 @@ const MyResumes = () => {
         console.log(template);
       }
       const response = await axios.post(
-        "http://localhost:8000/api/format",
+        "https://nikoapi.alexa.moe/api/format",
         {
           resumeId: resume,
           formatType: format_options[format_ind],
@@ -302,7 +302,7 @@ const MyResumes = () => {
       const template = templates[selectedTemplate].formattedTitle;
       console.log("Selected template: " + template);
       const response = await axios.get(
-        `http://localhost:8000/api/resumes/download/${resume._id}/${format}/basic/${template}`,
+        `https://nikoapi.alexa.moe/api/resumes/download/${resume._id}/${format}/basic/${template}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

@@ -84,7 +84,7 @@ const ResumeUpload = () => {
       formData.append("resume", file);
 
       const response = await axios.post(
-        "http://localhost:8000/api/resume/upload",
+        "https://nikoapi.alexa.moe/api/resume/upload",
         formData,
         {
           headers: {

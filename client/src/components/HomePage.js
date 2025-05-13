@@ -47,7 +47,7 @@ const HomePage = () => {
         try {
           const accessToken = await memoizedGetAccessTokenSilently();
           const checkResponse = await fetch(
-            `http://localhost:8000/api/auth/users/${user.sub}`,
+            `https://nikoapi.alexa.moe/api/auth/users/${user.sub}`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -59,7 +59,7 @@ const HomePage = () => {
           // User doesn't exist, create them
           if (checkResponse.status === 404) {
             const createResponse = await fetch(
-              "http://localhost:8000/api/auth/users",
+              "https://nikoapi.alexa.moe/api/auth/users",
               {
                 method: "POST",
                 headers: {

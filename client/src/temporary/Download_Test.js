@@ -7,13 +7,13 @@ const Temp = () => {
     const { getAccessTokenSilently } = useAuth0();
     const handleClick = async () => {
         const token = await getAccessTokenSilently();
-        const resumes = await axios.get("http://localhost:8000/api/resumes/", {
+        const resumes = await axios.get("https://nikoapi.alexa.moe/api/resumes/", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
         // Call format and download afterwards
-        await axios.post("http://localhost:8000/api/format", {
+        await axios.post("https://nikoapi.alexa.moe/api/format", {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -24,14 +24,14 @@ const Temp = () => {
 
         var response;
         try {
-            response = await axios.get(`http://localhost:8000/api/resumes/download/${resumes.data.data[0]._id}`, {
+            response = await axios.get(`https://nikoapi.alexa.moe/api/resumes/download/${resumes.data.data[0]._id}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob'
             });
         } catch (error) {
             console.log("Error", error);
             // Call format and download afterwards
-            await axios.post("http://localhost:8000/api/format", {
+            await axios.post("https://nikoapi.alexa.moe/api/format", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
@@ -39,7 +39,7 @@ const Temp = () => {
                 formatType: "", 
                 templateId: "basic"
             });
-            response = await axios.get(`http://localhost:8000/api/resumes/download/${resumes.data.data[0]._id}`, {
+            response = await axios.get(`https://nikoapi.alexa.moe/api/resumes/download/${resumes.data.data[0]._id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
         }

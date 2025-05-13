@@ -31,7 +31,7 @@ const CareerHistory = () => {
   const fetchCareerHistory = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/career-history/history", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/career-history/history", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -123,7 +123,7 @@ const CareerHistory = () => {
       // Adding Career History into DB
       console.log("Submitting career history:", formattedData);
       const response = await axios.post(
-        "http://localhost:8000/api/career-history/history",
+        "https://nikoapi.alexa.moe/api/career-history/history",
         {
           work_experience: formattedData,
         },

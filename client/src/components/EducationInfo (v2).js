@@ -41,7 +41,7 @@ const EducationInfo = () => {
   const fetchEducationInfo = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/education", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/education", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -105,7 +105,7 @@ const EducationInfo = () => {
       }));
 
       const response = await axios.post(
-        "http://localhost:8000/api/education",
+        "https://nikoapi.alexa.moe/api/education",
         { education: formattedData },
         {
           headers: {

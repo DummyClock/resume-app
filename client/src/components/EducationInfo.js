@@ -45,9 +45,9 @@ const EducationInfo = () => {
   const fetchEducationInfo = async () => {
     try {
       const token = await getAccessTokenSilently();
-      //const response = await axios.get("http://localhost:8000/api/education/v2", {
+      //const response = await axios.get("https://nikoapi.alexa.moe:8000/api/education/v2", {
       const response = await axios.get(
-        "http://localhost:8000/api/education/v2",
+        "https://nikoapi.alexa.moe/api/education/v2",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -115,7 +115,7 @@ const EducationInfo = () => {
       }));
 
       const response = await axios.post(
-        "http://localhost:8000/api/education",
+        "https://nikoapi.alexa.moe/api/education",
         { education: formattedData },
         {
           headers: {
@@ -168,7 +168,7 @@ const EducationInfo = () => {
         const token = await getAccessTokenSilently();
         const edu_id = education[index]._id;
         const response = await axios.delete(
-          "http://localhost:8000/api/education/v2",
+          "https://nikoapi.alexa.moe/api/education/v2",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -248,7 +248,7 @@ const EducationInfo = () => {
 
       // Make addition or update existing entry
       const response = await axios.post(
-        "http://localhost:8000/api/education/v2",
+        "https://nikoapi.alexa.moe/api/education/v2",
         { education: [formattedData] }, // Send as an array
         {
           headers: {

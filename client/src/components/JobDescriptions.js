@@ -30,7 +30,7 @@ const JobDescription = () => {
   const fetchJobDescHistory = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/job-desc", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/job-desc", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -77,7 +77,7 @@ const JobDescription = () => {
 
       console.log("Submitting job description history:", formattedData);
       const response = await axios.post(
-        "http://localhost:8000/api/job-desc",
+        "https://nikoapi.alexa.moe/api/job-desc",
         {
           job_description: formattedData, // Match the database field name
         },
