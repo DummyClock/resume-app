@@ -281,7 +281,7 @@ const ResumeGeneration = () => {
     setErrorMessage("");
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/job-desc", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/job-desc", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -310,7 +310,7 @@ const ResumeGeneration = () => {
   const fetchResumes = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/resume", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/resume", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -333,7 +333,7 @@ const ResumeGeneration = () => {
   const fetchCareers = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/career-history/history_v2", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/career-history/history_v2", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -356,7 +356,7 @@ const ResumeGeneration = () => {
   const fetchEdus = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/education/v2", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/education/v2", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -379,7 +379,7 @@ const ResumeGeneration = () => {
   const fetchSkills = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:8000/api/skills", {
+      const response = await axios.get("https://nikoapi.alexa.moe/api/skills", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -420,7 +420,7 @@ const ResumeGeneration = () => {
         }
       const token = await getAccessTokenSilently();
       const response = await axios.post(
-        "http://localhost:8000/api/resumes/generate_v2",
+        "https://nikoapi.alexa.moe/api/resumes/generate_v2",
         { jobId: selectedJobId, selectedCareers : selectedCareers, selectedEdus: selectedEdus, selectedSkills: selectedSkills },
         {
           headers: {
@@ -472,7 +472,7 @@ const ResumeGeneration = () => {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.post(
-        "http://localhost:8000/api/resumes/generate_v2",
+        "https://nikoapi.alexa.moe/api/resumes/generate_v2",
         { jobId: selectedJobId, selectedCareers : careers, careers: edus, selectedSkills: Array.from(selectedSkills)},
         {
           headers: {

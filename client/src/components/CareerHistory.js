@@ -33,7 +33,7 @@ const CareerHistory = () => {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.get(
-        "http://localhost:8000/api/career-history/history_v2",
+        "https://nikoapi.alexa.moe/api/career-history/history_v2",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -121,7 +121,7 @@ const CareerHistory = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:8000/api/career-history/history_v2",
+        "https://nikoapi.alexa.moe/api/career-history/history_v2",
         { work_experience: [formattedData] }, // Send as an array
         {
           headers: {
@@ -176,7 +176,7 @@ const CareerHistory = () => {
         const token = await getAccessTokenSilently();
         const edu_id = careerHistory[index]._id;
         const response = await axios.delete(
-          "http://localhost:8000/api/career-history/history_v2",
+          "https://nikoapi.alexa.moe/api/career-history/history_v2",
           {
             headers: {
               Authorization: `Bearer ${token}`,

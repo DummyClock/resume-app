@@ -49,7 +49,7 @@ const Dashboard = () => {
       const token = await getAccessTokenSilently();
 
       // Fetch career history
-      const careerResponse = await axios.get("http://localhost:8000/api/career-history/history_v2", {
+      const careerResponse = await axios.get("https://nikoapi.alexa.moe/api/career-history/history_v2", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Cache-Control": "no-cache",
@@ -59,7 +59,7 @@ const Dashboard = () => {
       setCareerHistory(careerResponse.data.data || []);
 
       // Fetch education
-      const educationResponse = await axios.get("http://localhost:8000/api/education/v2", {
+      const educationResponse = await axios.get("https://nikoapi.alexa.moe/api/education/v2", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Cache-Control": "no-cache",
@@ -69,7 +69,7 @@ const Dashboard = () => {
       setEducation(educationResponse.data.data || []);
 
       // Fetch Skills
-      const skillResponse = await axios.get("http://localhost:8000/api/skills", {
+      const skillResponse = await axios.get("https://nikoapi.alexa.moe/api/skills", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Cache-Control": "no-cache",
@@ -116,7 +116,7 @@ const Dashboard = () => {
   const handleDelete = async (skill) => {
     try {
       const token = await getAccessTokenSilently(); // Get token
-      const skillResponse = await axios.delete(`http://localhost:8000/api/skills/${encodeURIComponent(skill)}`, {
+      const skillResponse = await axios.delete(`https://nikoapi.alexa.moe/api/skills/${encodeURIComponent(skill)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Cache-Control": "no-cache",
@@ -159,7 +159,7 @@ const Dashboard = () => {
     const addSkill_2_Db = async (newSkill) => {
       try {
         const token = await getAccessTokenSilently(); // Get token
-        const skillResponse = await axios.put(`http://localhost:8000/api/skills/${newSkill}`, {}, { 
+        const skillResponse = await axios.put(`https://nikoapi.alexa.moe/api/skills/${newSkill}`, {}, { 
           headers: {
             Authorization: `Bearer ${token}`,
             "Cache-Control": "no-cache",
@@ -191,7 +191,7 @@ const Dashboard = () => {
   const deleteSkill_2_Db = async (newSkill) => {
     try {
       const token = await getAccessTokenSilently(); // Get token
-      const skillResponse = await axios.put(`http://localhost:8000/api/skills/${newSkill}`, {}, { 
+      const skillResponse = await axios.put(`https://nikoapi.alexa.moe/api/skills/${newSkill}`, {}, { 
         headers: {
           Authorization: `Bearer ${token}`,
           "Cache-Control": "no-cache",

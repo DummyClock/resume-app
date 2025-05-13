@@ -28,7 +28,7 @@ const ResumeDisplay = () => {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          `http://localhost:8000/api/resumes/status/${resumeId}`,
+          `https://nikoapi.alexa.moe/api/resumes/status/${resumeId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

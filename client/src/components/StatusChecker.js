@@ -56,7 +56,7 @@ const StatusChecker = ({ resumeId: propResumeId }) => {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.get(
-        `http://localhost:8000/api/resumes/status/${currentResumeId}`,
+        `https://nikoapi.alexa.moe/api/resumes/status/${currentResumeId}`,
         {
           headers: { Authorization: `Bearer ${token}` },    
         }

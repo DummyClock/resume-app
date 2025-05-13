@@ -76,7 +76,7 @@ const UserProfile  = () => {
     const fetchPhoneNumber = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get("http://localhost:8000/api/user-profile/phone", {
+            const response = await axios.get("https://nikoapi.alexa.moe/api/user-profile/phone", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -130,7 +130,7 @@ const UserProfile  = () => {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.post(
-        "http://localhost:8000/api/user-profile/phone",
+        "https://nikoapi.alexa.moe/api/user-profile/phone",
         { phone: tempPhoneNumber },
         {
           headers: {
@@ -170,7 +170,7 @@ const UserProfile  = () => {
 
     try {
         const token = await getAccessTokenSilently();
-        const response = await axios.post("http://localhost:8000/api/auth/updateName",
+        const response = await axios.post("https://nikoapi.alexa.moe/api/auth/updateName",
             { userId: user.sub, newName: tempName},
             {
                 headers: {
@@ -192,7 +192,7 @@ const UserProfile  = () => {
      const fetchEmail = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get("http://localhost:8000/api/user-profile/email", {
+            const response = await axios.get("https://nikoapi.alexa.moe/api/user-profile/email", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -243,7 +243,7 @@ const UserProfile  = () => {
 
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.post("http://localhost:8000/api/user-profile/email", 
+            const response = await axios.post("https://nikoapi.alexa.moe/api/user-profile/email", 
                 {email: tempEmail},
                 {headers: {
                     Authorization: `Bearer ${token}`,
@@ -281,7 +281,7 @@ const UserProfile  = () => {
             try {
                 const token = await getAccessTokenSilently();
                 const response = await axios.post(
-                "http://localhost:8000/api/user-profile/upload_photo",
+                "https://nikoapi.alexa.moe/api/user-profile/upload_photo",
                 formData,
                 {
                     headers: {
@@ -309,7 +309,7 @@ const UserProfile  = () => {
         console.log("Fetching profile photo for user:", user?.sub);
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "http://localhost:8000/api/user-profile/photo",
+          "https://nikoapi.alexa.moe/api/user-profile/photo",
           {
             headers: {
               Authorization: `Bearer ${token}`,
